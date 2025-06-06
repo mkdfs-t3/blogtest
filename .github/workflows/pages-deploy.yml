@@ -3,7 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches:
-      - master  # or 'master' if your default branch is called master
+      - master  # your default branch is 'master'
 
 permissions:
   contents: read
@@ -18,18 +18,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-ruby@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'
+          ruby-version: '3.2'
+
       - name: Install dependencies
         run: |
           gem install bundler
           bundle init
           echo 'gem "minimal-mistakes-jekyll"' >> Gemfile
           bundle install
+
       - name: Build the site
         run: bundle exec jekyll build -d _site
+
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -45,3 +51,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+
