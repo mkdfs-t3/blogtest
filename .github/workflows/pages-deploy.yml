@@ -3,7 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches:
-      - master  # your default branch is 'master'
+      - master
 
 permissions:
   contents: read
@@ -29,8 +29,6 @@ jobs:
       - name: Install dependencies
         run: |
           gem install bundler
-          bundle init
-          echo 'gem "minimal-mistakes-jekyll"' >> Gemfile
           bundle install
 
       - name: Build the site
@@ -51,4 +49,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
-
